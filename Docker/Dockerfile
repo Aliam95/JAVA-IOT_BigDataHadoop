@@ -3,26 +3,26 @@ FROM ubuntu:18.04
 
 MAINTAINER Asic ALI  <ali.asic.mougamadou@gmail.com>
  
-# Update du répertoire Ubuntu
-RUN sudo apt-get update
-RUN sudo apt-get -y upgrade
-# creat workspace 
-RUN mkdir -p /workspace
-WORDIR /workspace
-COPY . .
-# Install Python 3
-RUN sudo apt-get install python3
-# Install pip3 for python
-RUN sudo apt-get -y install python3-pip
-# Install vim
-RUN sudo apt install vim git
-# requirements.txt file installation
-RUN sudo pip install -r requirements.txt
+# update and install depedencies
+RUN apt-get update
+RUN apt-get -y install curl
+RUN apt-get install -qy python3
+RUN apt-get install -qy python3-pip
+RUN apt-get install -qy vim
+RUN apt-get -y install git
+RUN git clone https://github.com/Aliam95/JAVA-IOT_BigDataHadoop.git
 
-RUN pip3 install -r requirement.txt && pip3 install jupyter
+WORKDIR /Docker
+ADD . /workspace
+WORKDIR /workspace
 
-# Expose port 8000 
+RUN pip3 freeze > requirements.txt
+RUN pip3 install -r requirements.txt
+RUN pip3 install jupyter
+
+EXPOSE 8888
 EXPOSE 8000
 
 CMD workspace --port 8000
 CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+
