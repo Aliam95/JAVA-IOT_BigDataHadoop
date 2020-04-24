@@ -20,7 +20,6 @@ RUN pip3 freeze > requirements.txt
 RUN pip3 install -r requirements.txt
 RUN pip3 install jupyter
 
-EXPOSE 8888
 EXPOSE 8000
 
 CMD workspace --port 8000
